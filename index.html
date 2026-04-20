@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Parking Monitoring System</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden; /* Mencegah scrollbar ganda */
+            background-color: #F3F4F6;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+      Iframe embed untuk Web App Google Apps Script. 
+      CATATAN PENTING: Atribut allow="camera" WAJIB ada agar scanner QR Code 
+      mendapatkan izin akses kamera berlapis dari browser host.
+    -->
+    <iframe id="appFrame" allow="camera; capture=camera" allowfullscreen></iframe>
+
+    <script>
+        // 1. Masukkan URL hasil Deploy Apps Script Anda di sini.
+        //    Pastikan URL berakhiran /exec
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbxeJEZSHP5iGZ4HGzDDAwxuv638x1gDOnAQevKHBGLU9TYCXonNbcSZvcj_OAQ7I_3isQ/exec?app=petugas";
+        
+        // 2. Script ini akan secara dinamis meneruskan paramater (seperti ?app=petugas)
+        //    dari URL custom Anda (contoh: myparkingsystem.com/?app=petugas)
+        //    ke dalam iframe Google Apps Script.
+        const queryString = window.location.search;
+        
+        // Cek apakah base URL sudah mengandung parameter query (menggunakan ?)
+        const separator = GAS_URL.includes('?') ? '&' : (queryString ? '' : '?');
+        
+        // Membentuk URL Final
+        const finalUrl = GAS_URL + (queryString ? queryString : "");
+        
+        // Memuat URL ke dalam iframe
+        document.getElementById('appFrame').src = finalUrl;
+    </script>
+</body>
+</html>
